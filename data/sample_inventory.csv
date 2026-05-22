@@ -1,0 +1,7 @@
+product_name,stock,reorder_level,price,avg_daily_sales
+Analytics Pro,85,50,20.00,28
+DataViz Suite,210,40,20.00,17
+Insight Engine,32,60,30.00,14
+Report Builder,190,30,20.00,12
+ML Forecaster,14,45,40.00,10
+Dashboard Pro,320,20,20.00,8
