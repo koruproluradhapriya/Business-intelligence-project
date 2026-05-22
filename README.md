@@ -298,7 +298,7 @@ Create `backend/.env`:
 ```env
 SECRET_KEY=replace-with-a-strong-secret
 JWT_SECRET_KEY=replace-with-a-strong-jwt-secret
-MONGO_URI=mongodb+srv://Insightadmin:admin12345@cluster0.gmzziw6.mongodb.net/?appName=Cluster0
+MONGO_URI=mongodb+srv://Insightadmin:adminxxxx@cluster0.gmzziw6.mongodb.net/?appName=Cluster0
 DATABASE_NAME=InsightIQ
 MONGO_CONNECT_RETRIES=3
 MONGO_SERVER_SELECTION_TIMEOUT_MS=15000
