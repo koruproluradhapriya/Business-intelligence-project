@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design token variables ──────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --bg-base:      #0a0a0f;
+  --bg-card:      rgba(30, 30, 46, 0.85);
+  --bg-card-solid:#1e1e2e;
+  --bg-layer:     #111118;
+  --bg-layer2:    #16161f;
+  --border-color: rgba(255,255,255,0.08);
+  --text-primary: #ffffff;
+  --text-muted:   rgba(255,255,255,0.50);
+  --text-faint:   rgba(255,255,255,0.30);
+  --input-bg:     #16161f;
+  --scrollbar:    rgba(99,102,241,0.35);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg-base:      #f1f5f9;
+  --bg-card:      rgba(255,255,255,0.90);
+  --bg-card-solid:#ffffff;
+  --bg-layer:     #ffffff;
+  --bg-layer2:    #f8fafc;
+  --border-color: rgba(0,0,0,0.09);
+  --text-primary: #0f172a;
+  --text-muted:   rgba(15,23,42,0.55);
+  --text-faint:   rgba(15,23,42,0.35);
+  --input-bg:     #f1f5f9;
+  --scrollbar:    rgba(99,102,241,0.40);
+  color-scheme: light;
+}
+
+/* ── Global resets ───────────────────────────────────────────────── */
+@layer base {
+  * { box-sizing: border-box; }
+
+  html { font-family: 'Inter', system-ui, sans-serif; }
+
+  body {
+    background-color: var(--bg-base) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar);
+    border-radius: 10px;
+  }
+}
+
+/* ── Component layer (theme-aware) ───────────────────────────────── */
+@layer components {
+  .glass-card {
+    background-color: var(--bg-card) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color) !important;
+    border-radius: 1rem;
+    color: var(--text-primary);
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
+
+  /* sidebar / topbar */
+  aside,
+  header {
+    background-color: var(--bg-layer) !important;
+    border-color: var(--border-color) !important;
+    transition: background-color 0.25s ease;
+  }
+
+  /* nav links */
+  aside a, aside button {
+    color: var(--text-muted) !important;
+  }
+  aside a.active-nav,
+  aside a[aria-current="page"] {
+    color: #6366f1 !important;
+  }
+
+  /* generic text overrides so white text flips in light mode */
+  .theme-text-primary { color: var(--text-primary) !important; }
+  .theme-text-muted   { color: var(--text-muted)   !important; }
+  .theme-text-faint   { color: var(--text-faint)   !important; }
+  .theme-border       { border-color: var(--border-color) !important; }
+  .theme-bg-layer     { background-color: var(--bg-layer) !important; }
+
+  .btn-primary {
+    @apply px-4 py-2 rounded-xl text-white font-semibold text-sm transition-all duration-200
+           hover:opacity-90 hover:shadow-lg hover:shadow-indigo-500/25 active:scale-95
+           disabled:opacity-50 disabled:cursor-not-allowed;
+    background: linear-gradient(135deg, #6366f1, #22d3ee);
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 active:scale-95;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-muted);
+  }
+  .btn-secondary:hover {
+    background: rgba(99,102,241,0.08);
+    color: var(--text-primary);
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200;
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+  }
+  .input-field::placeholder { color: var(--text-faint); }
+  .input-field:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.18) !important;
+  }
+
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider mb-1.5;
+    color: var(--text-faint);
+  }
+
+  /* severity badges */
+  .severity-high   { @apply bg-red-500/15 text-red-400 border border-red-500/25; }
+  .severity-medium { @apply bg-amber-500/15 text-amber-400 border border-amber-500/25; }
+  .severity-low    { @apply bg-emerald-500/15 text-emerald-400 border border-emerald-500/25; }
+
+  /* animations */
+  .animate-fade-in { animation: fadeIn 0.3s ease-out both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+
+/* ── Light-mode text colour patches ─────────────────────────────── */
+/*
+  Tailwind's `text-white` / `text-white/40` etc. are baked in.
+  Override them specifically inside the light theme root.
+*/
+[data-theme="light"] .text-white           { color: #0f172a !important; }
+[data-theme="light"] .text-white\/30,
+[data-theme="light"] [class*="text-white/3"] { color: rgba(15,23,42,0.35) !important; }
+[data-theme="light"] .text-white\/40,
+[data-theme="light"] [class*="text-white/4"] { color: rgba(15,23,42,0.50) !important; }
+[data-theme="light"] .text-white\/50,
+[data-theme="light"] [class*="text-white/5"] { color: rgba(15,23,42,0.60) !important; }
+[data-theme="light"] .text-white\/60,
+[data-theme="light"] [class*="text-white/6"] { color: rgba(15,23,42,0.70) !important; }
+[data-theme="light"] .text-white\/70,
+[data-theme="light"] [class*="text-white/7"] { color: rgba(15,23,42,0.80) !important; }
+
+/* surface backgrounds */
+[data-theme="light"] .bg-surface-900,
+[data-theme="light"] [class*="bg-surface-9"] { background-color: #f1f5f9 !important; }
+[data-theme="light"] .bg-surface-800,
+[data-theme="light"] [class*="bg-surface-8"] { background-color: #ffffff !important; }
+[data-theme="light"] .bg-surface-700,
+[data-theme="light"] [class*="bg-surface-7"] { background-color: #f8fafc !important; }
+[data-theme="light"] .bg-surface-600,
+[data-theme="light"] [class*="bg-surface-6"] { background-color: #f1f5f9 !important; }
+
+/* borders */
+[data-theme="light"] .border-white\/\[0\.06\],
+[data-theme="light"] .border-white\/\[0\.08\],
+[data-theme="light"] [class*="border-white/"] { border-color: rgba(15,23,42,0.10) !important; }
+
+/* bg-white/5 → subtle light bg */
+[data-theme="light"] .bg-white\/\[0\.04\],
+[data-theme="light"] .bg-white\/\[0\.05\],
+[class*="bg-white/"][data-theme="light"],
+[data-theme="light"] [class*="bg-white/0"] { background-color: rgba(15,23,42,0.04) !important; }
+
+/* divider table rows */
+[data-theme="light"] .divide-white\/\[0\.04\] > :not(:first-child),
+[data-theme="light"] [class*="divide-white"] > :not(:first-child) { border-color: rgba(15,23,42,0.08) !important; }
