@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: insightiq-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 "app:create_app()"
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: DATABASE_NAME
+        value: InsightIQ
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: ALLOW_DB_FALLBACK
+        value: "False"
+      - key: MONGO_CONNECT_RETRIES
+        value: "3"
+      - key: MONGO_SERVER_SELECTION_TIMEOUT_MS
+        value: "15000"
+      - key: MONGO_CONNECT_TIMEOUT_MS
+        value: "15000"
+      - key: MONGO_SOCKET_TIMEOUT_MS
+        value: "30000"
+      - key: MONGO_MAX_POOL_SIZE
+        value: "10"
+      - key: MONGO_MIN_POOL_SIZE
+        value: "1"
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-4-20250514
+      - key: OFFLINE_MODE
+        value: "False"
+      - key: CORS_ORIGINS
+        sync: false
+      - key: UPLOAD_FOLDER
+        value: uploads
